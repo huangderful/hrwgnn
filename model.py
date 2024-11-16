@@ -27,6 +27,7 @@ class RW_NN(nn.Module):
     def init_weights(self):
         self.adj_hidden.data.uniform_(-1, 1)
         self.features_hidden.data.uniform_(0, 1)
+
         
     def forward(self, adj, features, graph_indicator):
         unique, counts = torch.unique(graph_indicator, return_counts=True)
@@ -70,3 +71,5 @@ class RW_NN(nn.Module):
         out = self.dropout(out)
         out = self.fc2(out)
         return F.log_softmax(out, dim=1)
+    def get_hidden_graphs(self):
+        print(self.adj_hidden)
