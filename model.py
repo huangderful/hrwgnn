@@ -71,5 +71,3 @@ class RW_NN(nn.Module):
         out = self.dropout(out)
         out = self.fc2(out)
         return F.log_softmax(out, dim=1)
-    def get_hidden_graphs(self):
-        print(self.adj_hidden)
