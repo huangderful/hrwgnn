@@ -14,12 +14,12 @@ from utils import load_data, generate_batches, accuracy, AverageMeter
 
 # Argument parser
 parser = argparse.ArgumentParser(description='RW_NN')
-parser.add_argument('--dataset', default='IMDB-BINARY', help='Dataset name')
+parser.add_argument('--dataset', default='synthetic', help='Dataset name')
 parser.add_argument('--use-node-labels', action='store_true', default=False, help='Whether to use node labels')
 parser.add_argument('--lr', type=float, default=1e-2, metavar='LR', help='Initial learning rate')
 parser.add_argument('--dropout', type=float, default=0.2, help='Dropout rate (1 - keep probability).')
 parser.add_argument('--batch-size', type=int, default=64, metavar='N', help='Input batch size for training')
-parser.add_argument('--epochs', type=int, default=200, metavar='N', help='Number of epochs to train')
+parser.add_argument('--epochs', type=int, default=100, metavar='N', help='Number of epochs to train')
 parser.add_argument('--hidden-graphs', type=int, default=16, metavar='N', help='Number of hidden graphs')
 parser.add_argument('--size-hidden-graphs', type=int, default=5, metavar='N', help='Number of nodes of each hidden graph')
 parser.add_argument('--hidden-dim', type=int, default=4, metavar='N', help='Size of hidden layer of NN')
@@ -29,7 +29,7 @@ parser.add_argument('--normalize', action='store_true', default=False, help='Whe
 
 
 args = parser.parse_args()
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+device = torch.device("cpu")
 
 adj_lst, features_lst, class_labels = load_data(args.dataset, args.use_node_labels)
 
