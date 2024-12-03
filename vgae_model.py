@@ -7,24 +7,30 @@ import numpy as np
 import args
 
 class VGAE(nn.Module):
-	def __init__(self, adj):
-		super(VGAE,self).__init__()
-		self.base_gcn = GraphConvSparse(args.input_dim, args.hidden1_dim, adj)
-		self.gcn_mean = GraphConvSparse(args.hidden1_dim, args.hidden2_dim, adj, activation=lambda x:x)
-		self.gcn_logstddev = GraphConvSparse(args.hidden1_dim, args.hidden2_dim, adj, activation=lambda x:x)
+    def __init__(self, adj, input_dim, hidden1_dim, hidden2_dim, dropout=0.5):
+        super(VGAE, self).__init__()
+        self.base_gcn = GraphConvSparse(input_dim, hidden1_dim, adj)
+        self.gcn_mean = GraphConvSparse(hidden1_dim, hidden2_dim, adj, activation=lambda x: x)
+        self.gcn_logstddev = GraphConvSparse(hidden1_dim, hidden2_dim, adj, activation=lambda x: x)
+        self.dropout = nn.Dropout(p=dropout)  # Dropout layer
 
-	def encode(self, X):
-		hidden = self.base_gcn(X)
-		self.mean = self.gcn_mean(hidden)
-		self.logstd = self.gcn_logstddev(hidden)
-		gaussian_noise = torch.randn(X.size(0), args.hidden2_dim)
-		sampled_z = gaussian_noise*torch.exp(self.logstd) + self.mean
-		return sampled_z
+    def encode(self, X):
+        # Apply dropout after the first GCN layer
+        hidden = self.base_gcn(X)
+        hidden = self.dropout(hidden)
+        
+        self.mean = self.gcn_mean(hidden)
+        self.logstd = self.gcn_logstddev(hidden)
+        
+        # Sampling using reparameterization trick
+        gaussian_noise = torch.randn(X.size(0), self.mean.size(1)).to(X.device)
+        sampled_z = gaussian_noise * torch.exp(self.logstd) + self.mean
+        return sampled_z
 
-	def forward(self, X):
-		Z = self.encode(X)
-		A_pred = dot_product_decode(Z)
-		return A_pred
+    def forward(self, X):
+        Z = self.encode(X)
+        A_pred = dot_product_decode(Z)
+        return A_pred
 
 class GraphConvSparse(nn.Module):
 	def __init__(self, input_dim, output_dim, adj, activation = F.relu, **kwargs):
