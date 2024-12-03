@@ -14,7 +14,7 @@ from utils import load_data, generate_batches, accuracy, AverageMeter
 
 # Argument parser
 parser = argparse.ArgumentParser(description='RW_NN')
-parser.add_argument('--dataset', default='synthetic', help='Dataset name')
+parser.add_argument('--dataset', default='graph', help='Dataset name')
 parser.add_argument('--use-node-labels', action='store_true', default=False, help='Whether to use node labels')
 parser.add_argument('--lr', type=float, default=1e-2, metavar='LR', help='Initial learning rate')
 parser.add_argument('--dropout', type=float, default=0.2, help='Dropout rate (1 - keep probability).')
