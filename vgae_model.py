@@ -7,7 +7,7 @@ import numpy as np
 import args
 
 class VGAE(nn.Module):
-    def __init__(self, adj, input_dim, hidden1_dim, hidden2_dim, dropout=0.5):
+    def __init__(self, adj, input_dim, hidden1_dim, hidden2_dim, dropout=0.2):
         super(VGAE, self).__init__()
         self.base_gcn = GraphConvSparse(input_dim, hidden1_dim, adj)
         self.gcn_mean = GraphConvSparse(hidden1_dim, hidden2_dim, adj, activation=lambda x: x)
