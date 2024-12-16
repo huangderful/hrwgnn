@@ -1,6 +1,5 @@
 # Hypergraph Random Walk Graph Neural Networks
-TODO CHANGE PDF FILE
-This repository is the official implementation of [Hypergraph Random Walk Graph Neural Networks](https://proceedings.neurips.cc/paper/2020/file/ba95d78a7c942571185308775a97a3a0-Paper.pdf). 
+This repository is the official implementation of [Hypergraph Random Walk Graph Neural Networks](https://drive.google.com/drive/folders/1v8zxelYlHdGsTbcId0X6pRHAIKWKBOhk?usp=sharing). 
 
 This repo is a fork off the original [RWGNN Repository](https://github.com/giannisnik/rwgnn) and combines code from [vgae pytorch](https://github.com/DaehanKim/vgae_pytorch).
 
